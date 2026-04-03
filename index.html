@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web3 Learning Paths</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: #0a0a0f;
+    color: #e8e6f0;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .page-header h1 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6b6880;
+    margin-bottom: 8px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .page-header h2 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a89cff 0%, #5dcaa5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    align-items: center;
+    padding: 12px 16px;
+    background: #13131a;
+    border-radius: 10px;
+    border: 1px solid #1e1e2e;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #9994b0;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .ld-eth { background: #7f77dd; }
+  .ld-sol { background: #1d9e75; }
+  .ld-new { background: #ef9f27; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .hot-badge { background: #3a1a0e; color: #f0997b; border: 1px solid #5a2a1a; }
+  .new-badge { background: #2a1e06; color: #fac775; border: 1px solid #4a3510; }
+  .shared-badge { background: #1a1a20; color: #8888a0; border: 1px solid #2a2a35; }
+
+  .paths {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .path {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* PATH TITLE */
+  .path-title {
+    font-size: 16px;
+    font-weight: 800;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .eth-title {
+    background: linear-gradient(135deg, #1e1a3a 0%, #2a2050 100%);
+    color: #a89cff;
+    border: 1px solid #3d3480;
+    box-shadow: 0 0 20px #534ab720;
+  }
+
+  .sol-title {
+    background: linear-gradient(135deg, #0a1f18 0%, #102b20 100%);
+    color: #5dcaa5;
+    border: 1px solid #1a5a3e;
+    box-shadow: 0 0 20px #1d9e7520;
+  }
+
+  /* PHASE BLOCK */
+  .phase {
+    margin-bottom: 18px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #1e1e2e;
+  }
+
+  /* PHASE LABEL — bold, prominent header */
+  .phase-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    padding: 10px 14px;
+    font-family: 'Space Mono', monospace;
+    border-bottom: 1px solid #1e1e2e;
+  }
+
+  .eth .phase-label {
+    background: linear-gradient(90deg, #1e1a3a 0%, #16142a 100%);
+    color: #a89cff;
+    border-left: 4px solid #7f77dd;
+  }
+
+  .sol .phase-label {
+    background: linear-gradient(90deg, #0d1f18 0%, #0a1510 100%);
+    color: #5dcaa5;
+    border-left: 4px solid #1d9e75;
+  }
+
+  /* LESSON CARDS */
+  .lesson {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d8d4f0;
+    background: #0e0e16;
+    border-bottom: 1px solid #1a1a26;
+    line-height: 1.4;
+    transition: background 0.15s;
+  }
+
+  .lesson:last-child { border-bottom: none; }
+  .lesson:hover { background: #13131e; }
+
+  .lesson span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: #605c7a;
+    margin-top: 3px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .eth .lesson { border-left: 3px solid #2e2a50; }
+  .sol .lesson { border-left: 3px solid #122a20; }
+
+  /* NEW LESSON */
+  .new-lesson {
+    background: #0f0e0a !important;
+    border-left: 3px solid #ef9f27 !important;
+  }
+
+  .new-lesson:hover { background: #131208 !important; }
+
+  .new-lesson .lesson-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* SHARED LESSON */
+  .lesson.shared {
+    border-left: 3px solid #2a2a3a !important;
+    background: #0c0c12 !important;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #6b6880;
+    margin: 20px 0 10px;
+    padding: 10px 14px;
+    border-top: 1px solid #1e1e2e;
+    border-left: 4px solid #2a2a3a;
+    font-family: 'Space Mono', monospace;
+    background: #0c0c12;
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* PROJECT CARDS */
+  .project-card {
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #1e1e2e;
+    background: #0c0c16;
+    line-height: 1.5;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .project-card:hover {
+    transform: translateY(-1px);
+  }
+
+  .eth .project-card {
+    border-left: 4px solid #534ab7;
+  }
+
+  .eth .project-card:hover {
+    border-color: #534ab7;
+    box-shadow: 0 4px 20px #534ab710;
+  }
+
+  .sol .project-card {
+    border-left: 4px solid #0f6e56;
+  }
+
+  .sol .project-card:hover {
+    border-color: #0f6e56;
+    box-shadow: 0 4px 20px #0f6e5610;
+  }
+
+  .project-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: #e8e6f0;
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+  }
+
+  .project-stack {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5a5670;
+    margin-bottom: 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+
+  .project-desc {
+    font-size: 12px;
+    font-weight: 400;
+    color: #807a9a;
+    line-height: 1.6;
+  }
+
+  .note {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5a5670;
+    padding: 10px 16px;
+    background: #0c0c12;
+    border-radius: 8px;
+    margin-top: 16px;
+    border: 1px solid #1a1a26;
+    font-family: 'Space Mono', monospace;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .paths { flex-direction: column; }
+    body { padding: 20px 14px; }
+    .page-header h2 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>2025–26 Market Ready</h1>
+  <h2>Web3 Learning Paths</h2>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot ld-eth"></div> Ethereum lesson</div>
+  <div class="legend-item"><div class="legend-dot ld-sol"></div> Solana lesson</div>
+  <div class="legend-item"><div class="legend-dot ld-new"></div> New addition (2025–26)</div>
+  <div class="legend-item"><span class="badge hot-badge">🔥 Hot</span> High demand now</div>
+</div>
+
+<div class="paths">
+
+  <!-- ===== ETHEREUM ===== -->
+  <div class="path eth">
+    <div class="path-title eth-title">⬡ Ethereum Path</div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 1 — Foundations</div>
+      <div class="lesson">Orientation, Intro to blockchains<span>Why blockchain, how it works</span></div>
+      <div class="lesson">Encryption &amp; private keys, Keccak-256<span>Core cryptography for ETH</span></div>
+      <div class="lesson">ETH intro, EVM<span>Accounts, gas, EVM execution model</span></div>
+      <div class="lesson">Creating a web based wallet<span>MetaMask, key management basics</span></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 2 — Smart Contract Dev</div>
+      <div class="lesson">Solidity<span>Language fundamentals, types, functions</span></div>
+      <div class="lesson">Ganache, Truffle, Hardhat &amp; Foundry<span>Local dev environments &amp; testing</span></div>
+      <div class="lesson">Ownership, authorities, programs<span>Access control patterns in contracts</span></div>
+      <div class="lesson">Upgradable contracts<span>Proxy patterns, OpenZeppelin</span></div>
+      <div class="lesson">Upgradable staking contract<span>Real-world upgradable contract build</span></div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Smart contract security &amp; auditing <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Slither, Mythril, reentrancy, flash loan attacks</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">ERC standards deep dive <span class="badge new-badge">New</span></div>
+        <span>ERC-20, ERC-721, ERC-1155, ERC-4337 (Account Abstraction)</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Account Abstraction (ERC-4337) <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Bundlers, paymasters, smart wallets — biggest ETH trend 2025–26</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 3 — Frontend + DApp</div>
+      <div class="lesson">ETH on the frontend<span>ethers.js / viem, connecting wallet</span></div>
+      <div class="lesson">Client side ETH<span>Reading state, sending txns from UI</span></div>
+      <div class="lesson">End to end contract with FE<span>Full DApp: contract + React frontend</span></div>
+      <div class="lesson">Extra session: Publishing your first DApp<span>Deploy + publish on testnet</span></div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">wagmi + viem + RainbowKit <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Modern ETH frontend stack replacing ethers.js in most new jobs</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">The Graph (Subgraphs) <span class="badge new-badge">New</span></div>
+        <span>Index &amp; query on-chain events via GraphQL — used in every DeFi app</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 4 — Advanced</div>
+      <div class="lesson">Decentralized exchanges<span>AMM design, Uniswap mechanics</span></div>
+      <div class="lesson">DEXs &amp; funding<span>Liquidity pools, tokenomics</span></div>
+      <div class="lesson">Bridges<span>Cross-chain messaging, ETH↔L2</span></div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Layer 2 deep dive <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Arbitrum, Optimism, Base, zkSync — most new ETH jobs are L2-first</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Chainlink &amp; Oracles <span class="badge new-badge">New</span></div>
+        <span>Price feeds, VRF, CCIP cross-chain messaging</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Real-world assets (RWA) &amp; tokenization <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Biggest institutional trend 2026 — $23B+ on-chain, huge job demand</span>
+      </div>
+      <div class="lesson shared">Private key management <span class="badge shared-badge">Shared</span><span>Secure key storage, HSMs, MPC</span></div>
+      <div class="lesson shared">GitOps &amp; ArgoCD <span class="badge shared-badge">Shared</span><span>CI/CD for smart contract deployments</span></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 5 — Extra Tech Stack (2026 Market)</div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Foundry testing mastery <span class="badge new-badge">New</span></div>
+        <span>Fuzz testing, invariant tests — auditors &amp; senior devs need this</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">IPFS + Filecoin / Arweave <span class="badge new-badge">New</span></div>
+        <span>Decentralized storage for NFT metadata, DApp assets</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">TypeScript for Web3 <span class="badge new-badge">New</span></div>
+        <span>All modern DApp jobs require strong TypeScript, not just JS</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Next.js 14+ for DApps <span class="badge new-badge">New</span></div>
+        <span>Server components, App Router — standard in Web3 frontend roles</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 6 — Job Prep</div>
+      <div class="lesson">Interview questions<span>Solidity, EVM, security questions</span></div>
+    </div>
+
+    <div class="section-divider">Phase 6 — Projects (Build All 3)</div>
+
+    <div class="project-card">
+      <div class="project-name">1. DeFi Lending Protocol</div>
+      <div class="project-stack">Solidity · Hardhat/Foundry · wagmi · Next.js · The Graph</div>
+      <div class="project-desc">Users deposit ETH as collateral and borrow stablecoins. Includes liquidation logic, interest rate model, and a live dashboard showing on-chain positions via subgraph.</div>
+    </div>
+    <div class="project-card">
+      <div class="project-name">2. NFT Marketplace with Royalties</div>
+      <div class="project-stack">Solidity · ERC-721/2981 · RainbowKit · IPFS/Pinata · Next.js</div>
+      <div class="project-desc">List, buy, sell NFTs with on-chain royalties (ERC-2981). Metadata stored on IPFS. Includes a wallet-connected frontend with real-time event indexing.</div>
+    </div>
+    <div class="project-card">
+      <div class="project-name">3. Smart Wallet (Account Abstraction)</div>
+      <div class="project-stack">ERC-4337 · Solidity · Pimlico bundler · wagmi · Base L2</div>
+      <div class="project-desc">Build a gasless smart wallet using ERC-4337. Users sign transactions without needing ETH for gas (paymaster pays). Deploy on Base — most hirable project in 2026.</div>
+    </div>
+  </div>
+
+  <!-- ===== SOLANA ===== -->
+  <div class="path sol">
+    <div class="path-title sol-title">◎ Solana Path</div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 1 — Foundations</div>
+      <div class="lesson">Orientation, Intro to blockchains<span>Why blockchain, how it works</span></div>
+      <div class="lesson">Exploring Bitcoin<span>UTXO model, how Bitcoin differs</span></div>
+      <div class="lesson">Solana jargon &amp; programming model<span>Accounts, programs, rent, epochs</span></div>
+      <div class="lesson">Creating a web based wallet<span>Phantom / Backpack, keypairs</span></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 2 — Core Concepts</div>
+      <div class="lesson">Wallet adapter<span>Connect wallet to React app</span></div>
+      <div class="lesson">Tokens &amp; Token launchpad<span>SPL tokens, mint authority, metadata</span></div>
+      <div class="lesson">Ownership, authorities, programs &amp; PDAs<span>Core Solana account model</span></div>
+      <div class="lesson">Transactions &amp; IDLs<span>Instructions, accounts list, IDL schema</span></div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Token-2022 (Token Extensions) <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Transfer hooks, confidential transfers, interest-bearing tokens — new SPL standard</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Metaplex &amp; NFT standard <span class="badge new-badge">New</span></div>
+        <span>Core NFTs, compressed NFTs (cNFTs), Bubblegum — Solana NFT stack</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 3 — Anchor Framework</div>
+      <div class="lesson">Anchor vs raw contracts<span>Why Anchor, what it abstracts</span></div>
+      <div class="lesson">Anchor part 1 — basics<span>Program structure, accounts, errors</span></div>
+      <div class="lesson">Anchor part 2 — CPIs<span>Cross-program invocations</span></div>
+      <div class="lesson">Anchor part 3 — PDAs<span>Deriving, creating, signing with PDAs</span></div>
+      <div class="lesson">PDAs, bumps &amp; invoke_signed<span>Low-level PDA signing in raw programs</span></div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Anchor testing with bankrun <span class="badge new-badge">New</span></div>
+        <span>Fast Solana program tests without spinning up a validator</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 4 — Advanced</div>
+      <div class="lesson">Decentralized exchanges<span>Serum, Raydium, on-chain order books</span></div>
+      <div class="lesson">Indexing Solana accounts<span>Helius, Shyft, custom indexers</span></div>
+      <div class="lesson">TG Bot for trading (BonkBot)<span>Trading bot, transaction parsing</span></div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Helius webhooks &amp; DAS API <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Real-time on-chain event streaming, compressed NFT indexing</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Jupiter SDK &amp; swap aggregation <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Best-price routing, swap integration — used in almost every Solana DApp</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Solana Pay &amp; payments <span class="badge new-badge">New</span></div>
+        <span>QR-based crypto payments, transaction requests — growing merchant use</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">MEV &amp; Jito bundles <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Sandwich attacks, arbitrage bots, Jito tip — high-paying niche in 2026</span>
+      </div>
+      <div class="lesson shared">Private key management <span class="badge shared-badge">Shared</span><span>Secure key storage, env vars, HSMs</span></div>
+      <div class="lesson shared">GitOps &amp; ArgoCD <span class="badge shared-badge">Shared</span><span>Deploy pipeline for Solana programs</span></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 5 — Extra Tech Stack (2026 Market)</div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Rust basics for Solana <span class="badge new-badge">New</span><span class="badge hot-badge">🔥 Hot</span></div>
+        <span>Ownership, borrowing, structs — enough Rust to write raw programs</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">@solana/web3.js v2 <span class="badge new-badge">New</span></div>
+        <span>New tree-shakeable JS SDK replacing v1 — jobs now expect this</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">TypeScript for Web3 <span class="badge new-badge">New</span></div>
+        <span>Strong typing for IDLs, account deserialization, RPC calls</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">Next.js 14+ for DApps <span class="badge new-badge">New</span></div>
+        <span>Server components + Solana wallet adapter — standard frontend stack</span>
+      </div>
+      <div class="lesson new-lesson">
+        <div class="lesson-top">gRPC &amp; Yellowstone (Geyser) <span class="badge new-badge">New</span></div>
+        <span>High-speed account/transaction streaming — needed for bots &amp; indexers</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 6 — Job Prep</div>
+      <div class="lesson">Interview questions<span>Solana accounts, PDAs, anchor</span></div>
+    </div>
+
+    <div class="section-divider">Phase 6 — Projects (Build All 3)</div>
+
+    <div class="project-card">
+      <div class="project-name">1. Token Launchpad + Vesting</div>
+      <div class="project-stack">Anchor · Token-2022 · Metaplex · Next.js · Helius webhooks</div>
+      <div class="project-desc">Launch a custom SPL token with vesting schedule for team allocations. Users can claim vested tokens over time. Frontend shows live token supply and holder stats via Helius DAS API.</div>
+    </div>
+    <div class="project-card">
+      <div class="project-name">2. On-chain Order Book DEX</div>
+      <div class="project-stack">Anchor · PDAs · Jupiter SDK · @solana/web3.js v2 · Next.js</div>
+      <div class="project-desc">Limit order book with maker/taker model using PDAs for escrow. Integrates Jupiter for best-price routing on market orders. Shows real-time orderbook and trade history.</div>
+    </div>
+    <div class="project-card">
+      <div class="project-name">3. MEV Arbitrage / Trading Bot</div>
+      <div class="project-stack">Rust / TypeScript · Jito bundles · Yellowstone gRPC · Jupiter</div>
+      <div class="project-desc">Monitor Solana mempool via Yellowstone, detect price discrepancies across DEXs, execute atomic arbitrage using Jito tip bundles. The most hirable project for high-paying Solana roles.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="note">🟡 Orange-bordered = new 2025–26 additions &nbsp;·&nbsp; 🔥 Hot = actively hiring &nbsp;·&nbsp; Gray = shared across both chains &nbsp;·&nbsp; Build all 3 projects before applying.</div>
+
+</body>
+</html>
