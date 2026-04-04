@@ -78,6 +78,7 @@ Shared:    Git · GitOps · ArgoCD · IPFS · Private key management
 
 ---
 
+
 ## 📚 Course Topics Covered
 
 This roadmap is based on a Web3 course covering:
